@@ -50,7 +50,7 @@ const ResultsPage = () => {
           </div>
         ))}
       </div>
-      <button onClick={handleRestart}>🔄 Play Again</button>
+      <button onClick={handleRestart}> Play Again</button>
     </div>
   );
 };

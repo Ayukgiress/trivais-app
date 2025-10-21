@@ -23,7 +23,6 @@ export const TriviaProvider = ({ children }) => {
         const response = await fetch('https://opentdb.com/api.php?amount=10&difficulty=medium&type=boolean');
         if (!response.ok) {
           if (response.status === 429 && retryCount < 5) {
-            // Exponential backoff with jitter: base delay 1s, double each retry, add random 0-1000ms
             const baseDelay = Math.pow(2, retryCount) * 1000;
             const jitter = Math.random() * 1000;
             const delay = baseDelay + jitter;
