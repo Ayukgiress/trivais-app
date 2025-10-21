@@ -14,9 +14,23 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
-      <h1>Welcome to Trivia Challenge</h1>
+      <h1>Trivia Challenge</h1>
       <p>Test your knowledge with 10 hard true or false questions!</p>
       <p>You cannot go back to previous questions once answered.</p>
+      <div className="game-features">
+        <div className="feature">
+          <span className="feature-icon">🎓</span>
+          <span>Educational & Fun</span>
+        </div>
+        <div className="feature">
+          <span className="feature-icon">⚡</span>
+          <span>Quick Answers</span>
+        </div>
+        <div className="feature">
+          <span className="feature-icon">🏆</span>
+          <span>Challenge Yourself</span>
+        </div>
+      </div>
       {loading && <p>Loading questions...</p>}
       {error && <p>Error: {error}</p>}
       <button onClick={handleStart} disabled={loading || error}>

@@ -18,10 +18,18 @@ export const TriviaProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
+    const fetchQuestions = async (retryCount = 0) => {
       try {
-        const response = await fetch('https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean');
+        const response = await fetch('https://opentdb.com/api.php?amount=10&difficulty=medium&type=boolean');
         if (!response.ok) {
+          if (response.status === 429 && retryCount < 5) {
+            // Exponential backoff with jitter: base delay 1s, double each retry, add random 0-1000ms
+            const baseDelay = Math.pow(2, retryCount) * 1000;
+            const jitter = Math.random() * 1000;
+            const delay = baseDelay + jitter;
+            setTimeout(() => fetchQuestions(retryCount + 1), delay);
+            return;
+          }
           if (response.status === 429) {
             throw new Error('Too many requests. Please try again later.');
           }
