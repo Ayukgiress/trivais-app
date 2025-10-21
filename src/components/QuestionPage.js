@@ -11,7 +11,12 @@ const QuestionPage = () => {
   const question = questions[questionIndex];
 
   if (!question) {
-    return <div>Loading...</div>;
+    return (
+      <div className="question-page loading">
+        <div className="loading-spinner">🔄</div>
+        <p>Loading question...</p>
+      </div>
+    );
   }
 
   const handleAnswer = (answer) => {
@@ -23,13 +28,32 @@ const QuestionPage = () => {
     }
   };
 
+  const progressPercentage = ((questionIndex + 1) / questions.length) * 100;
+
   return (
     <div className="question-page">
-      <h2>Question {questionIndex + 1} of {questions.length}</h2>
-      <p dangerouslySetInnerHTML={{ __html: question.question }}></p>
-      <div className="answers">
-        <button onClick={() => handleAnswer('True')}>True</button>
-        <button onClick={() => handleAnswer('False')}>False</button>
+      <div className="progress-container">
+        <div className="progress-bar">
+          <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
+        </div>
+        <span className="progress-text">{questionIndex + 1} / {questions.length}</span>
+      </div>
+      <div className="question-card">
+        <div className="question-header">
+          <span className="question-category">{question.category}</span>
+          <span className="difficulty-badge" data-difficulty={question.difficulty}>
+            {question.difficulty}
+          </span>
+        </div>
+        <h2 className="question-text" dangerouslySetInnerHTML={{ __html: question.question }}></h2>
+        <div className="answers">
+          <button className="answer-btn true-btn" onClick={() => handleAnswer('True')}>
+            ✅ True
+          </button>
+          <button className="answer-btn false-btn" onClick={() => handleAnswer('False')}>
+            ❌ False
+          </button>
+        </div>
       </div>
     </div>
   );
